@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações</title>
+    <style>
+        /* Estilos específicos para o módulo de configurações */
+        .configuracoes-container {
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .configuracoes-header {
+            margin-bottom: 20px;
+        }
+
+        .configuracoes-header h3 {
+            margin: 0;
+        }
+
+        .configuracoes-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .config-section {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .config-section h4 {
+            margin: 0 0 15px 0;
+            color: var(--text-color);
+        }
+
+        .config-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .config-option label {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .config-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .config-option select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: var(--input-bg);
+            color: var(--input-text-color);
+            cursor: pointer;
+        }
+
+        .save-button {
+            padding: 10px 20px;
+            background: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            align-self: flex-end;
+        }
+
+        .save-button:hover {
+            background: var(--menu-hover);
+        }
+    </style>
+</head>
+<body>
+    <div class="configuracoes-container">
+        <!-- Cabeçalho do módulo de configurações -->
+        <div class="configuracoes-header">
+            <h3>Configurações</h3>
+        </div>
+
+        <!-- Conteúdo das configurações -->
+        <div class="configuracoes-content">
+            <!-- Configurações de Tema -->
+            <div class="config-section">
+                <h4>Tema</h4>
+                <div class="config-option">
+                    <label for="theme-select">Modo Escuro</label>
+                    <input type="checkbox" id="theme-toggle" onchange="toggleDarkMode()">
+                </div>
+            </div>
+
+            <!-- Configurações de Notificações -->
+            <div class="config-section">
+                <h4>Notificações</h4>
+                <div class="config-option">
+                    <label for="notifications-toggle">Receber Notificações</label>
+                    <input type="checkbox" id="notifications-toggle">
+                </div>
+                <div class="config-option">
+                    <label for="notification-sound">Som de Notificação</label>
+                    <select id="notification-sound">
+                        <option value="som1">Som 1</option>
+                        <option value="som2">Som 2</option>
+                        <option value="som3">Som 3</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Configurações de Privacidade -->
+            <div class="config-section">
+                <h4>Privacidade</h4>
+                <div class="config-option">
+                    <label for="privacy-mode">Modo Privado</label>
+                    <input type="checkbox" id="privacy-mode">
+                </div>
+            </div>
+
+            <!-- Botão de Salvar -->
+            <button class="save-button" onclick="saveSettings()">Salvar Configurações</button>
+        </div>
+    </div>
+
+    <script>
+        // Função para alternar o modo escuro
+        function toggleDarkMode() {
+            const isDarkMode = document.getElementById('theme-toggle').checked;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+        }
+
+        // Verificar preferência salva do modo escuro
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.getElementById('theme-toggle').checked = true;
+            document.body.classList.add('dark-mode');
+        }
+
+        // Função para salvar configurações
+        function saveSettings() {
+            const notificationsEnabled = document.getElementById('notifications-toggle').checked;
+            const notificationSound = document.getElementById('notification-sound').value;
+            const privacyModeEnabled = document.getElementById('privacy-mode').checked;
+
+            // Salvar no localStorage (ou enviar para o servidor)
+            localStorage.setItem('notificationsEnabled', notificationsEnabled);
+            localStorage.setItem('notificationSound', notificationSound);
+            localStorage.setItem('privacyModeEnabled', privacyModeEnabled);
+
+            alert('Configurações salvas com sucesso!');
+        }
+
+        // Carregar configurações salvas
+        function loadSettings() {
+            const notificationsEnabled = localStorage.getItem('notificationsEnabled') === 'true';
+            const notificationSound = localStorage.getItem('notificationSound') || 'som1';
+            const privacyModeEnabled = localStorage.getItem('privacyModeEnabled') === 'true';
+
+            document.getElementById('notifications-toggle').checked = notificationsEnabled;
+            document.getElementById('notification-sound').value = notificationSound;
+            document.getElementById('privacy-mode').checked = privacyModeEnabled;
+        }
+
+        // Carregar configurações ao abrir a página
+        loadSettings();
+    </script>
+</body>
+</html>

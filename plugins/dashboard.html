@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* Estilos específicos para o módulo de dashboard */
+        .dashboard-container {
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-header h3 {
+            margin: 0;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            margin: 0 0 15px 0;
+            color: var(--text-color);
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .summary-card h5 {
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+        }
+
+        .summary-card p {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--icon-color);
+        }
+    </style>
+    <!-- Biblioteca Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Cabeçalho do dashboard -->
+        <div class="dashboard-header">
+            <h3>Dashboard</h3>
+        </div>
+
+        <!-- Conteúdo do dashboard -->
+        <div class="dashboard-content">
+            <!-- Gráfico de barras -->
+            <div class="card">
+                <h4>Vendas Mensais</h4>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico de pizza -->
+            <div class="card">
+                <h4>Distribuição de Categorias</h4>
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Cards de resumo -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h5>Total de Vendas</h5>
+                    <p>R$ 25.000</p>
+                </div>
+                <div class="summary-card">
+                    <h5>Novos Clientes</h5>
+                    <p>120</p>
+                </div>
+                <div class="summary-card">
+                    <h5>Pedidos Pendentes</h5>
+                    <p>15</p>
+                </div>
+                <div class="summary-card">
+                    <h5>Taxa de Conversão</h5>
+                    <p>8.5%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados para os gráficos
+        const barChartData = {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            datasets: [{
+                label: 'Vendas Mensais',
+                data: [12000, 19000, 3000, 5000, 2000, 3000, 8000, 12000, 15000, 10000, 18000, 22000],
+                backgroundColor: 'rgba(108, 99, 255, 0.5)',
+                borderColor: 'rgba(108, 99, 255, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const pieChartData = {
+            labels: ['Eletrônicos', 'Roupas', 'Alimentos', 'Acessórios'],
+            datasets: [{
+                label: 'Distribuição de Categorias',
+                data: [40, 30, 20, 10],
+                backgroundColor: [
+                    'rgba(108, 99, 255, 0.5)',
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(75, 192, 192, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(108, 99, 255, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Configuração do gráfico de barras
+        const barChartCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barChartCtx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            color: var(--text-color)
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            color: var(--text-color)
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: var(--text-color)
+                        }
+                    }
+                }
+            }
+        });
+
+        // Configuração do gráfico de pizza
+        const pieChartCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieChartCtx, {
+            type: 'pie',
+            data: pieChartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: var(--text-color)
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

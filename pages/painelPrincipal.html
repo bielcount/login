@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Principal</title>
+    <link rel="icon" type="image/x-icon" href="/assets/logo/logo5.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        
+        /* Reset e variáveis de tema */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --background: #f4f4f4;
+            --sidebar: #2c2c31;
+            --header: white;
+            --text-color: black;
+            --card-bg: white;
+            --icon-bg: rgba(0, 0, 0, 0.1);
+            --menu-hover: #6C63FF;
+            --company-icon-bg: #4A47A3;
+            --input-bg: #f9f9f9;
+            --button-bg: #6C63FF;
+            --button-text: white;
+            --icon-color: #6C63FF;
+            --input-text-color: black;
+            --readonly-bg: #eaeaea;
+            --readonly-text-color: #333;
+        }
+
+        body.dark-mode {
+            --background: #1f1f20;
+            --sidebar: #18181b;
+            --header: #2c2c31;
+            --text-color: white;
+            --card-bg: #242429;
+            --icon-bg: rgba(255, 255, 255, 0.1);
+            --menu-hover: #5551C8;
+            --company-icon-bg: #36318E;
+            --input-bg: #333;
+            --button-bg: #5551C8;
+            --icon-color: #5551C8;
+            --input-text-color: white;
+            --readonly-bg: #444;
+            --readonly-text-color: #ddd;
+        }
+
+        /* Corpo da Página */
+        body {
+            display: flex;
+            height: 100vh;
+            background: var(--background);
+            color: var(--text-color);
+            transition: 0.3s;
+        }
+
+        /* Menu Lateral */
+        .sidebar {
+            width: 80px;
+            background: var(--sidebar);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: width 0.3s;
+            overflow: hidden;
+        }
+
+        .sidebar:hover {
+            width: 250px;
+        }
+
+        .sidebar:hover .menu-text {
+            display: inline;
+        }
+
+        .menu-text {
+            display: none;
+            transition: opacity 0.3s;
+        }
+
+        .company-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--company-icon-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            background: transparent;
+            border-radius: 5px;
+            transition: 0.3s;
+            color: white;
+            width: 100%;
+        }
+
+        .menu-item:hover {
+            background: var(--menu-hover);
+        }
+
+        .menu-item i {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--icon-bg);
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .help {
+            text-align: center;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Área Principal */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* Cabeçalho */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--header);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Título */
+        .header h2 {
+            margin: 0;
+            flex: 1;
+        }
+
+        /* Barra de pesquisa */
+        .search-bar {
+            width: 300px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            background: var(--input-bg);
+            color: var(--input-text-color);
+            margin: 0 20px;
+        }
+
+        /* Ícones */
+        .icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icons i {
+            padding: 10px;
+            background: var(--icon-bg);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Botão de Modo Escuro */
+        .dark-mode-toggle {
+            cursor: pointer;
+            padding: 10px;
+            background: var(--icon-bg);
+            border-radius: 5px;
+            border: none;
+            color: var(--text-color);
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        /* Área Dinâmica */
+        .dynamic-content {
+            flex: 1;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="company-icon">🏢</div>
+        <div class="menu">
+            <div class="menu-item" data-modulo="home"><i>🏠</i> <span class="menu-text">Página Inicial</span></div>
+            <div class="menu-item" data-modulo="tributacao"><i>📄</i> <span class="menu-text">Tributação</span></div>
+            <div class="menu-item" data-modulo="usuarios"><i>👤</i> <span class="menu-text">Usuários</span></div>
+            <div class="menu-item" data-modulo="chamados"><i>📞</i> <span class="menu-text">Chamados</span></div>
+            <div class="menu-item" data-modulo="backlog"><i>📚</i> <span class="menu-text">Backlog</span></div>
+            <div class="menu-item" data-modulo="dashboard"><i>📊</i> <span class="menu-text">Dashboard</span></div>
+            <div class="menu-item" data-modulo="configuracoes"><i>⚙️</i> <span class="menu-text">Configurações</span></div>
+        </div>
+        <div class="help"><i>❓</i> <span class="menu-text">Ajuda</span></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h2>Bem-vindo, Usuário</h2>
+            <input type="text" id="search-input" class="search-bar" placeholder="Buscar por nome...">
+            <div class="icons">
+                <i>🔔</i>
+                <i>⚙️</i>
+                <i>👤</i>
+                <button class="dark-mode-toggle">🌙</button>
+            </div>
+        </div>
+
+        <!-- Dynamic Content -->
+        <div class="dynamic-content" id="dynamic-content">
+            <!-- Conteúdo dinâmico será carregado aqui -->
+        </div>
+    </div>
+
+    <!-- Script Principal -->
+    <script src="/src/main.js"></script>
+</body>
+</html>
